@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --env-file=config/config.env server.mjs",
-    "dev": "nodemon --env-file=config/config.env server.mjs"
+    "dev": "nodemon --env-file=config/config.env server.mjs",
+    "node-1": "nodemon server.mjs 5003 http://localhost:5003",
+    "node-2": "nodemon server.mjs 5004 http://localhost:5004",
+    "node-3": "nodemon server.mjs 5005 http://localhost:5005"
   },
   "repository": {
     "type": "git",
@@ -19,8 +22,6 @@
   },
   "homepage": "https://github.com/VonAdamo/MyBlockchain#readme",
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "uuid": "^9.0.1"
   },

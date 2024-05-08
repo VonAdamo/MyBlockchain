@@ -26,7 +26,7 @@ export default class Blockchain {
     };
 
     hashBlock(timestamp, preHash, data, nonce){
-        const stringToHash = timestamp.toString() + preHash + JSON.stringify(data) + nonce;
+        const stringToHash = timestamp.toString() + preHash + JSON.stringify(data) + nonce + difficulty;
         //console.log(stringToHash);
         const hash = createHash(stringToHash);
         return hash;
