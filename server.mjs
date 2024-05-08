@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import blockchainRouter from "./routes/blockchain-routes.mjs";
 
-dotenv.config({path: "./config.env"});
+//dotenv.config({path: "config/config.env"});
 
 const app = express();
 
@@ -12,4 +12,4 @@ app.use("/api/v1/blockchain", blockchainRouter);
 
 
 const PORT = process.env.PORT || 5003;
-app.listen(PORT, () => console.log("Server is running on port 5003"));
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

@@ -5,8 +5,8 @@
   "main": "server.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.mjs",
-    "dev": "nodemon server.mjs"
+    "start": "node --env-file=config/config.env server.mjs",
+    "dev": "nodemon --env-file=config/config.env server.mjs"
   },
   "repository": {
     "type": "git",
