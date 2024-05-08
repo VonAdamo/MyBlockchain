@@ -6,15 +6,11 @@ const fetchBlockchain =(req, res, next) => {
 
 const createBlock = (req, res, next) => {
     const lastBlock = blockchain.getLastBlock();
-    console.log(lastBlock);
-
     const data = req.body;
-    const timestamp = Date.now();
-    const nonce = blockchain.proofOFWork(timestamp,lastBlock.hash, data);
-    console.log(lastBlock);
+    const {nonce, difficulty, timestamp} = blockchain.proofOFWork(lastBlock.hash, data);
 
-    const hash = blockchain.hashBlock(timestamp, lastBlock.hash, data, nonce);
-    const block = blockchain.createBlock(timestamp, lastBlock.hash, hash, data);
+    const hash = blockchain.hashBlock(timestamp, lastBlock.hash, data, nonce, difficulty);
+    const block = blockchain.createBlock(timestamp, lastBlock.hash, hash, data, difficulty);
 
     res.status(201).json({ message: "Block created successfully", success: true, data: block })
 };

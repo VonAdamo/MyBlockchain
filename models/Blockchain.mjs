@@ -4,7 +4,7 @@ import Block from "./Block.mjs";
 export default class Blockchain {
     constructor() {
         this.chain = [];
-        this.createBlock(Date.now(), "0", "0", []);
+        this.createBlock(Date.now(), "0", "0", [],);
     }
 
     createBlock(timestamp, preHash, hash, data) {
@@ -32,16 +32,32 @@ export default class Blockchain {
         return hash;
     };
 
-    proofOFWork(timestamp, preHash, data){
+    proofOFWork(preHash, data){
+        const lastBlock = this.getLastBlock();
+        let difficulty, hash, timestamp;
         let nonce = 0;
-        let hash = this.hashBlock(timestamp, preHash, data, nonce);
-
-        while(hash.substring(0, 3) !== "000"){
+        
+        do {
             nonce++;
-            hash = this.hashBlock(timestamp, preHash, data, nonce);
-            console.log(hash);
+            timestamp = Date.now();
+
+            difficulty = this.difficultyLevel(lastBlock, timestamp);
+            hash = this.hashBlock(timestamp, preHash, data, nonce, difficulty); 
+
+        } while(hash.substring(0, difficulty) !== "0".repeat(difficulty));
+        {
+            return {nonce,difficulty,timestamp};
         }
-        console.log(nonce);
-        return nonce;
     };
+
+    difficultyLevel(lastBlock, timestamp){
+        const MINE_RATE = process.env.MINE_RATE;
+        let {difficulty} = lastBlock;
+
+        if (difficulty < 1) return 1;
+
+        return timestamp - lastBlock.timestamp > MINE_RATE
+        ? + difficulty + 1
+        : + difficulty - 1; 
+    }
 }

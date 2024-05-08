@@ -5,6 +5,6 @@ export default class Block {
         this.preHash = preHash;
         this.hash = hash;
         this.data = data;
-        this.difficulty = difficulty || + process.env.DIFFICULTY;
+        this.difficulty = difficulty || +process.env.DIFFICULTY;
     }
 }
