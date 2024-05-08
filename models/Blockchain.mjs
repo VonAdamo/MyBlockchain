@@ -3,7 +3,13 @@ import Block from "./Block.mjs";
 
 export default class Blockchain {
     constructor() {
+        //Blockchain
         this.chain = [];
+        //Nodes
+        this.nodes = [];
+        //NodeUrl
+        this.nodeUrl = process.argv[3];
+        //Genesis Block
         this.createBlock(Date.now(), "0", "0", [],);
     }
 
@@ -25,7 +31,7 @@ export default class Blockchain {
         return this.chain.at(-1);
     };
 
-    hashBlock(timestamp, preHash, data, nonce){
+    hashBlock(timestamp, preHash, data, nonce, difficulty){
         const stringToHash = timestamp.toString() + preHash + JSON.stringify(data) + nonce + difficulty;
         //console.log(stringToHash);
         const hash = createHash(stringToHash);
