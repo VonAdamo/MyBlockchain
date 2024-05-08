@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import blockchainRouter from "./routes/blockchain-routes.mjs";
 
 dotenv.config({path: "./config.env"});

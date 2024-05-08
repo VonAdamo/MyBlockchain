@@ -1,6 +1,3 @@
-# MyBlockchain
-<<<<<<< HEAD
-"# MyBlockchain" 
-=======
+My Blockchain
+
 Assignment for NodeJS
->>>>>>> origin/main
