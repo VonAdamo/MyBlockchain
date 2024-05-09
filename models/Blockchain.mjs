@@ -5,9 +5,9 @@ export default class Blockchain {
     constructor() {
         //Blockchain
         this.chain = [];
-        //Nodes
+        //Nodes - medlemmar, användare
         this.nodes = [];
-        //NodeUrl
+        //Main Url - Min egen nod
         this.nodeUrl = process.argv[3];
         //Genesis Block
         this.createBlock(Date.now(), "0", "0", [],);
