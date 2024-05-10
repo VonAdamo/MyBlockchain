@@ -10,7 +10,7 @@ export default class Blockchain {
         //Main Url - Min egen nod
         this.nodeUrl = process.argv[3];
         //Genesis Block
-        this.createBlock(Date.now(), "0", "0", [],);
+        this.createBlock(Date.now(), "0", "0", [], process.env.DIFFICULTY);
     }
 
     createBlock(timestamp, preHash, hash, data) {
@@ -36,6 +36,22 @@ export default class Blockchain {
         //console.log(stringToHash);
         const hash = createHash(stringToHash);
         return hash;
+    };
+
+    validateChain(blockchain) {
+        let isValid = true;
+
+        for(let i = 1; i < blockchain.length; i++) {
+            const block = blockchain[i];
+            const lastBlock = blockchain[i - 1];
+
+            const hash = this.hashBlock( block.timestamp, lastBlock.hash, block.data )
+            
+            if(hash !== block.hash) isValid = false;
+            if(block.preHash !== lastBlock.hash) isValid = false;
+        }
+
+        return isValid;
     };
 
     proofOFWork(preHash, data){
