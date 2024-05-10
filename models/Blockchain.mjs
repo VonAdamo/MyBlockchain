@@ -6,21 +6,23 @@ export default class Blockchain {
         //Blockchain
         this.chain = [];
         //Nodes - medlemmar, användare
-        this.nodes = [];
+        this.memberNodes = [];
         //Main Url - Min egen nod
         this.nodeUrl = process.argv[3];
         //Genesis Block
-        this.createBlock(Date.now(), "0", "0", [], process.env.DIFFICULTY);
+        this.createBlock(Date.now(), "0", "0", [], 1337, process.env.DIFFICULTY);
     }
 
-    createBlock(timestamp, preHash, hash, data) {
+    createBlock(timestamp, preHash, hash, data, nonce, difficulty) {
 
         const block = new Block(
             timestamp,
             this.chain.length + 1, 
             preHash, 
             hash, 
-            data
+            data,
+            nonce,
+            difficulty
         );
 
         this.chain.push(block);
@@ -33,8 +35,9 @@ export default class Blockchain {
 
     hashBlock(timestamp, preHash, data, nonce, difficulty){
         const stringToHash = timestamp.toString() + preHash + JSON.stringify(data) + nonce + difficulty;
-        //console.log(stringToHash);
+        console.log(stringToHash);
         const hash = createHash(stringToHash);
+        //console.log(hash);
         return hash;
     };
 
@@ -45,7 +48,7 @@ export default class Blockchain {
             const block = blockchain[i];
             const lastBlock = blockchain[i - 1];
 
-            const hash = this.hashBlock( block.timestamp, lastBlock.hash, block.data )
+            const hash = this.hashBlock( block.timestamp, lastBlock.hash, block.data );
             
             if(hash !== block.hash) isValid = false;
             if(block.preHash !== lastBlock.hash) isValid = false;
@@ -73,7 +76,7 @@ export default class Blockchain {
     };
 
     difficultyLevel(lastBlock, timestamp){
-        const MINE_RATE = process.env.MINE_RATE;
+        const MINE_RATE = parseInt(process.env.MINE_RATE);
         let {difficulty} = lastBlock;
 
         if (difficulty < 1) return 1;
@@ -81,5 +84,6 @@ export default class Blockchain {
         return timestamp - lastBlock.timestamp > MINE_RATE
         ? + difficulty + 1
         : + difficulty - 1; 
+
     }
 }

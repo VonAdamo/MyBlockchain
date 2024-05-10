@@ -10,11 +10,11 @@ const createBlock = (req, res, next) => {
     const {nonce, difficulty, timestamp} = blockchain.proofOFWork(lastBlock.hash, data);
 
     const hash = blockchain.hashBlock(timestamp, lastBlock.hash, data, nonce, difficulty);
-    const block = blockchain.createBlock(timestamp, lastBlock.hash, hash, data, difficulty);
+    const block = blockchain.createBlock(timestamp, lastBlock.hash, hash, data, nonce, difficulty);
 
 
-    blockchain.nodes.forEach(async(url) => {
-    const body = block;
+    blockchain.memberNodes.forEach(async(url) => {
+    const body = {block};
     await fetch(`${url}/api/v1/blockchain/block/distribute`, {
         method: "POST",
         body: JSON.stringify(body),
@@ -45,8 +45,8 @@ const syncChain = (req, res, next) => {
     let maxLength = currentLength;
     let longestChain = null;
 
-    blockchain.nodes.forEach(async (nodes) => {
-        const response = await fetch (`${nodes}/api/v1/blockchain`);
+    blockchain.memberNodes.forEach(async (member) => {
+        const response = await fetch (`${member}/api/v1/blockchain`);
         if (response.ok) {
             const result = await response.json();
 

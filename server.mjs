@@ -4,6 +4,13 @@ import nodeRouter from "./routes/node-routes.mjs";
 
 const app = express();
 
+app.use((req, res, next) => {
+    const message =  `${req.method} ${req.originalUrl}`;
+    console.log(message);
+
+    next();
+});
+
 app.use(express.json());
 app.use("/api/v1/blockchain", blockchainRouter);
 app.use("/api/v1/nodes", nodeRouter);

@@ -1,17 +1,17 @@
 import { blockchain } from "../startup.mjs";
 
 export const listNodes = (req, res, next) => {
-    res.status(200).json({success:true, statusCode: 200, data: blockchain.nodes});
+    res.status(200).json({success:true, statusCode: 200, data: blockchain.memberNodes});
 };
 
 export const registerNode = (req, res, next) => {
     const node = req.body;
     //Om noden jag försöker lägga till redan finns 
     //eller om noden jag försöker lägga till är min egen nod så går det inte
-    if( blockchain.nodes.includes(node.nodeUrl) || blockchain.nodeUrl === node.nodeUrl ) {
+    if( blockchain.memberNodes.includes(node.nodeUrl) || blockchain.nodeUrl === node.nodeUrl ) {
         return res.status(400).json({success:false, statusCode: 400, data: { message: `Error, ${node.nodeUrl} is already registered or is your own node`}});
     }
-    blockchain.nodes.push(node.nodeUrl);
+    blockchain.memberNodes.push(node.nodeUrl);
     //Synca noderna
     syncNodes(node.nodeUrl);
 
@@ -20,12 +20,12 @@ export const registerNode = (req, res, next) => {
 
 export const syncNodes = (url) => {
     //Säger att nodes är listan med alla mina nodes och min main
-    const nodes = [...blockchain.nodes, blockchain.nodeUrl];
+    const members = [...blockchain.memberNodes, blockchain.nodeUrl];
 
     try {
         //Listan av alla noder skickas till alla noder
-        nodes.forEach(async(node) => {
-            const body = {nodeUrl: node};
+        members.forEach(async(member) => {
+            const body = {nodeUrl: member};
             await fetch(`${url}/api/v1/nodes/register-node`, {
                 method: "POST",
                 body: JSON.stringify(body),
