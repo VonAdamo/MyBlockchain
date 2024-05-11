@@ -8,17 +8,18 @@ export const registerNode = (req, res, next) => {
     const node = req.body;
     //Om noden jag försöker lägga till redan finns 
     //eller om noden jag försöker lägga till är min egen nod så går det inte
-    if( blockchain.memberNodes.includes(node.nodeUrl) || blockchain.nodeUrl === node.nodeUrl ) {
-        return res.status(400).json({success:false, statusCode: 400, data: { message: `Error, ${node.nodeUrl} is already registered or is your own node`}});
-    }
-    blockchain.memberNodes.push(node.nodeUrl);
-    //Synca noderna
-    syncNodes(node.nodeUrl);
-
-    res.status(201).json({success:true, statusCode: 201, data: { message: `Node ${node.nodeUrl} has been registered`}});
+    if( blockchain.memberNodes.indexOf(node.nodeUrl) === -1 && blockchain.nodeUrl !== node.nodeUrl ) {
+        blockchain.memberNodes.push(node.nodeUrl);
+        //Synca noderna
+        syncNodes(node.nodeUrl);
+        
+        res.status(201).json({success:true, statusCode: 201, data: { message: `Node ${node.nodeUrl} has been registered`}});
+    } else {
+        res.status(400).json({success:false, statusCode: 400, data: { message: `Node ${node.nodeUrl} already exists or is your own node`}});
+    }  
 };
 
-export const syncNodes = (url) => {
+const syncNodes = (url) => {
     //Säger att nodes är listan med alla mina nodes och min main
     const members = [...blockchain.memberNodes, blockchain.nodeUrl];
 
@@ -29,9 +30,9 @@ export const syncNodes = (url) => {
             await fetch(`${url}/api/v1/nodes/register-node`, {
                 method: "POST",
                 body: JSON.stringify(body),
-                headers: { "Content-Type": "application/json" }
+                headers: { "Content-Type": "application/json", }
             });
-        })
+        });
     } catch (error) {
         console.log(error);
     }

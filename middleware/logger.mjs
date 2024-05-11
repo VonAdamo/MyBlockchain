@@ -1,11 +1,15 @@
+import fs from 'fs';
+import path from 'path';
+
 const logger = ( req, res, next ) => {
-    //req.user = `${nodeUrl}`
+    const filePath = path.join(__appdir, "logs", "app.log");
+
     const message =  `${req.method} ${req.originalUrl} - 
     ${new Date().toLocaleDateString("sv-SE")} 
-    ${new Date().toLocaleTimeString("sv-SE")}
-    }`;
-    console.log(message);
+    ${new Date().toLocaleTimeString("sv-SE")}\n`;
 
+    fs.appendFileSync(filePath, message);
+    
     next();
 };
 
