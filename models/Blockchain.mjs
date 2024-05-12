@@ -12,9 +12,9 @@ export default class Blockchain {
         //Genesis Block
         this.createBlock(Date.now(), "0", "0", [], 1337, process.env.DIFFICULTY);
     }
-
+    
     createBlock(timestamp, preHash, hash, data, nonce, difficulty) {
-
+        
         const block = new Block(
             timestamp,
             this.chain.length + 1, 

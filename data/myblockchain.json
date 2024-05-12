@@ -1,0 +1,20 @@
+[
+  {
+    "timestamp": 1715479077489,
+    "blockIndex": 1,
+    "preHash": "0",
+    "hash": "0",
+    "data": [],
+    "nonce": 1337,
+    "difficulty": "1"
+  },
+  {
+    "timestamp": 1715479081875,
+    "blockIndex": 2,
+    "preHash": "0",
+    "hash": "000989447e86ed8e7dc42a36178358df362aa92203209ca3d1e6391c8d8539ea",
+    "data": { "productName": "Adam" },
+    "nonce": 161,
+    "difficulty": 2
+  }
+]

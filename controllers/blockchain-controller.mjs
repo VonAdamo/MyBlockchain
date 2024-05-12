@@ -1,25 +1,29 @@
 import { blockchain } from "../startup.mjs";
+import { writeFileSync, writeFileAsync } from "../utilities/fileHandler.mjs";
 
 const fetchBlockchain =(req, res, next) => {
     res.status(200).json({ message: "Blockchain fetched successfully", success: true, count: blockchain.chain.length, data: blockchain, })
 };
 
-const createBlock = (req, res, next) => {
+const createBlock = async (req, res, next) => {
     const lastBlock = blockchain.getLastBlock();
     const data = req.body;
+    console.log(data);
+
     const {nonce, difficulty, timestamp} = blockchain.proofOFWork(lastBlock.hash, data);
 
     const hash = blockchain.hashBlock(timestamp, lastBlock.hash, data, nonce, difficulty);
     const block = blockchain.createBlock(timestamp, lastBlock.hash, hash, data, nonce, difficulty);
 
+    writeFileSync("data", "myblockchain.json", JSON.stringify(blockchain.chain));
 
     blockchain.memberNodes.forEach(async(url) => {
     const body = {block};
     await fetch(`${url}/api/v1/blockchain/block/distribute`, {
         method: "POST",
         body: JSON.stringify(body),
-        headers: { "Content-Type": "application/json" }
-    })
+        headers: { "Content-Type": "application/json",},
+        });
     });
 
     res.status(201).json({ success: true, data: {message: "Block created and distributed", block }})
@@ -28,11 +32,12 @@ const createBlock = (req, res, next) => {
 const distribute = (req, res, next) => {
     const block = req.body;
     const lastBlock = blockchain.getLastBlock();
-
+    //Kolla så att sista blockets hash är samma som det nya blockets preHash
     const hash = lastBlock.hash === block.preHash;
-    const blockIndex = lastBlock.blockIndex + 1 === block.blockIndex;
+    //Kolla så att det nya blockets index är ett större än det sista blockets index
+    const index = lastBlock.blockIndex + 1 === block.blockIndex;
 
-    if(hash && blockIndex) {
+    if(hash && index) {
         blockchain.chain.push(block);
         res.status(201).json({ success: true, statusCode: 201, data: {message: "Block created successfully" }});
     } else {
@@ -57,13 +62,14 @@ const syncChain = (req, res, next) => {
 
             if (!longestChain || (longestChain && !blockchain.validateChain(longestChain))) 
                 {
-                console.log('Är synkade');
+                console.log('Already in sync!');
               } else {
                 blockchain.chain = longestChain;
               }
         }
     });
         
-    res.status(200).json({ success: true, statusCode: 200, data: { message: 'Synkroniseringen är klar' },});
+    res.status(200).json({ success: true, statusCode: 200, data: { message: "Sync complete!" },});
 };
+
 export { fetchBlockchain, createBlock, syncChain, distribute};
