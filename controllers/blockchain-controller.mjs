@@ -1,5 +1,6 @@
 import { blockchain } from "../startup.mjs";
 import { writeFileAsync } from "../utilities/fileHandler.mjs";
+import { v4 as uuidv4 } from "uuid";
 
 const fetchBlockchain =(req, res, next) => {
     res.status(200).json({ message: "Blockchain fetched successfully", success: true, count: blockchain.chain.length, data: blockchain, })
@@ -7,15 +8,23 @@ const fetchBlockchain =(req, res, next) => {
 
 const createBlock = async (req, res, next) => {
     const lastBlock = blockchain.getLastBlock();
-    const data = req.body;
-    console.log(data);
 
+    const data = req.body;
+    const id = uuidv4().replaceAll("-", "");
+    req.body.id = id;
+
+    data.id = req.body.id ?? data.id;
+    data.firstName = req.body.firstNameame ?? data.firstName;
+    data.lastName = req.body.lastNameame ?? data.lastNameame;
+    data.contact.phone = req.body.contact.phone ?? data.contact.phone;
+    data.contact.email = req.body.contact.email ?? data.contact.email;
+    
     const {nonce, difficulty, timestamp} = blockchain.proofOFWork(lastBlock.hash, data);
 
     const hash = blockchain.hashBlock(timestamp, lastBlock.hash, data, nonce, difficulty);
     const block = blockchain.createBlock(timestamp, lastBlock.hash, hash, data, nonce, difficulty);
 
-    writeFileAsync("data", "myblockchain.json", JSON.stringify(blockchain.chain));
+    //writeFileAsync("data", "myblockchain.json", JSON.stringify(blockchain.chain));
 
     blockchain.memberNodes.forEach(async(url) => {
     const body = {block};

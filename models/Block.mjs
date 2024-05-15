@@ -4,8 +4,8 @@ export default class Block {
         this.blockIndex = blockIndex;
         this.preHash = preHash;
         this.hash = hash;
-        this.data = data;
         this.nonce = nonce;
         this.difficulty = difficulty || +process.env.DIFFICULTY;
+        this.data = data;
     }
 }

@@ -1,1 +1,24 @@
-[{"timestamp":1715763876542,"blockIndex":1,"preHash":"0","hash":"0","data":[],"nonce":1337,"difficulty":"1"},{"timestamp":1715763880235,"blockIndex":2,"preHash":"0","hash":"00ba3e9c5441f5da512cc280e49758af142cedf08ce63059c7bd5fb6ae403713","data":{"productName":"Milla"},"nonce":104,"difficulty":2}]
+[
+  {
+    "timestamp": 1715767141800,
+    "blockIndex": 1,
+    "preHash": "0",
+    "hash": "0",
+    "nonce": 1337,
+    "difficulty": "1",
+    "data": []
+  },
+  {
+    "timestamp": 1715767163324,
+    "blockIndex": 2,
+    "preHash": "0",
+    "hash": "00f001e1eafd3cdbd9838f9c525b7df7f26cac132bb3d66f8ee316de04322f45",
+    "nonce": 400,
+    "difficulty": 2,
+    "data": {
+      "firstName": "Milla",
+      "contact": { "phone": "031-300", "email": "Milla@Milla" },
+      "id": "d8963d04459343e7982ac8122871c97f"
+    }
+  }
+]
