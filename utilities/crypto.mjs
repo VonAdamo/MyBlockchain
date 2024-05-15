@@ -1,5 +1,5 @@
 import crypto from 'crypto';
 
-export const createHash =(stringToHash) => {
-    return crypto.createHash('sha256').update(stringToHash).digest('hex');
+export const createHash =(...args) => {
+    return crypto.createHash('sha256').update(args.sort().join("")).digest('hex');
 };

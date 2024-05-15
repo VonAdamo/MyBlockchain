@@ -1,5 +1,5 @@
 import { blockchain } from "../startup.mjs";
-import { writeFileSync, writeFileAsync } from "../utilities/fileHandler.mjs";
+import { writeFileAsync } from "../utilities/fileHandler.mjs";
 
 const fetchBlockchain =(req, res, next) => {
     res.status(200).json({ message: "Blockchain fetched successfully", success: true, count: blockchain.chain.length, data: blockchain, })
@@ -15,7 +15,7 @@ const createBlock = async (req, res, next) => {
     const hash = blockchain.hashBlock(timestamp, lastBlock.hash, data, nonce, difficulty);
     const block = blockchain.createBlock(timestamp, lastBlock.hash, hash, data, nonce, difficulty);
 
-    writeFileSync("data", "myblockchain.json", JSON.stringify(blockchain.chain));
+    writeFileAsync("data", "myblockchain.json", JSON.stringify(blockchain.chain));
 
     blockchain.memberNodes.forEach(async(url) => {
     const body = {block};
