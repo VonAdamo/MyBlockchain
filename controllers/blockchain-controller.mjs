@@ -14,8 +14,8 @@ const createBlock = async (req, res, next) => {
     req.body.id = id;
 
     data.id = req.body.id ?? data.id;
-    data.firstName = req.body.firstNameame ?? data.firstName;
-    data.lastName = req.body.lastNameame ?? data.lastNameame;
+    data.firstName = req.body.firstName ?? data.firstName;
+    data.lastName = req.body.lastName ?? data.lastName;
     data.contact.phone = req.body.contact.phone ?? data.contact.phone;
     data.contact.email = req.body.contact.email ?? data.contact.email;
     
