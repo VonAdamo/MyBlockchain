@@ -13,16 +13,16 @@ export default class Blockchain {
         this.createBlock(Date.now(), "0", "0", [], 1337, process.env.DIFFICULTY);
     }
     
-    createBlock(timestamp, preHash, hash, data, nonce, difficulty) {
+    createBlock(timestamp, preHash, hash, nonce, difficulty, data) {
         
         const block = new Block(
             timestamp,
             this.chain.length + 1, 
             preHash, 
             hash, 
-            data,
             nonce,
-            difficulty
+            difficulty,
+            data
         );
 
         this.chain.push(block);

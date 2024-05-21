@@ -29,7 +29,7 @@ app.all("*", (req, res, next) => {
 
 app.use(errorHandler);
 
-/* const syncAtStartup = async () => {
+const syncAtStartup = async () => {
     console.log(process.argv[3]);
     const response = await fetch(`${process.argv[3]}/api/v1/blockchain/sync`);
     if (response.ok) 
@@ -39,11 +39,11 @@ app.use(errorHandler);
     } else {
       console.log('Oops något gick fel!!!');
     }
-}; */
+};
 
 const PORT = process.argv[2];
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
-    /* console.log('TODO: Sync at startup');
-    syncAtStartup(); */
+    console.log('TODO: Sync at startup');
+    syncAtStartup();
   });

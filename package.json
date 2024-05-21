@@ -4,7 +4,7 @@
   "description": "Assignmet for NodeJS",
   "main": "server.mjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest",
     "start": "node --env-file=config/config.env server.mjs 3001 http://localhost:3001",
     "dev": "nodemon --env-file=config/config.env server.mjs 3001 http://localhost:3001",
     "node-1": "nodemon --env-file=config/config.env server.mjs 3001 http://localhost:3001",
