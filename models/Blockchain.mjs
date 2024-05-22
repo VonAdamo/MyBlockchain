@@ -37,23 +37,27 @@ export default class Blockchain {
         const args = timestamp.toString() + preHash + JSON.stringify(data) + nonce + difficulty;
         console.log(args);
         const hash = createHash(args);
-        console.log(hash);
+        console.log("hashBlock", hash);
         return hash;
     };
 
     validateChain(blockchain) {
         let isValid = true;
 
+        console.log("inside validate chain")
+
         for(let i = 1; i < blockchain.length; i++) {
             const block = blockchain[i];
+            console.log(block);
             const lastBlock = blockchain[i - 1];
 
             const hash = this.hashBlock( block.timestamp, lastBlock.hash, block.data );
-            
+            console.log("ValidateChain", hash);
             if(hash !== block.hash) isValid = false;
+            console.log("lastHash", block.preHash, lastBlock.hash)
             if(block.preHash !== lastBlock.hash) isValid = false;
         }
-
+        console.log("isValid", isValid);
         return isValid;
     };
 
@@ -70,9 +74,10 @@ export default class Blockchain {
             hash = this.hashBlock(timestamp, preHash, data, nonce, difficulty); 
 
         } while(hash.substring(0, difficulty) !== "0".repeat(difficulty));
-        {
+
+        console.log("Proof of Workd", nonce,difficulty,timestamp );
             return {nonce,difficulty,timestamp};
-        }
+        
     };
 
     difficultyLevel(lastBlock, timestamp){

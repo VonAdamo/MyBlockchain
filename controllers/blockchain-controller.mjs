@@ -20,13 +20,14 @@ const createBlock = async (req, res, next) => {
     data.contact.email = req.body.contact.email ?? data.contact.email;
     
     const {nonce, difficulty, timestamp} = blockchain.proofOFWork(lastBlock.hash, data);
-
+    console.log("After proofOfWork", nonce, difficulty)
     const hash = blockchain.hashBlock(timestamp, lastBlock.hash, data, nonce, difficulty);
     const block = blockchain.createBlock(timestamp, lastBlock.hash, hash, data, nonce, difficulty);
 
     //writeFileAsync("data", "myblockchain.json", JSON.stringify(blockchain.chain));
-
+    console.log("Before Distribute", block)
     blockchain.memberNodes.forEach(async(url) => {
+        console.log(blockchain.memberNodes.length)
     const body = {block};
     await fetch(`${url}/api/v1/blockchain/block/distribute`, {
         method: "POST",
@@ -39,14 +40,15 @@ const createBlock = async (req, res, next) => {
 };
 
 const distribute = (req, res, next) => {
-    const block = req.body;
+    const block = req.body.block;
     const lastBlock = blockchain.getLastBlock();
     //Kolla så att sista blockets hash är samma som det nya blockets preHash
     const hash = lastBlock.hash === block.preHash;
     //Kolla så att det nya blockets index är ett större än det sista blockets index
     const index = lastBlock.blockIndex + 1 === block.blockIndex;
-
+    console.log("Inside Distribute");
     if(hash && index) {
+        console.log("Inside if");
         blockchain.chain.push(block);
         res.status(201).json({ success: true, statusCode: 201, data: {message: "Block created successfully" }});
     } else {
@@ -64,11 +66,13 @@ const syncChain = (req, res, next) => {
         if (response.ok) {
             const result = await response.json();
 
+            console.log(result.data.chain.length, maxLength)
             if(result.data.chain.length > maxLength) {
                 maxLength = result.data.chain.length;
                 longestChain = result.data.chain;
             }
 
+            console.log("Before if !longestChain")
             if (!longestChain || (longestChain && !blockchain.validateChain(longestChain))) 
                 {
                 console.log('Already in sync!');

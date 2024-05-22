@@ -1,5 +1,5 @@
 import {it, describe, expect} from "vitest";
-import {Block} from "../models/Block.mjs";
+import Block from "../models/Block.mjs";
 
 describe("Block", () => {
     const timestamp = Date.now();
@@ -11,13 +11,13 @@ describe("Block", () => {
     const data = {firstName: "Adam", lastName: "Majava", contact: {phone: "1234567890", email: "adam@hello.com"}};
 
     const block = new Block({
-        timestamp : timestamp,
-        blockIndex : blockIndex,
-        preHash : preHash,
-        hash : hash,
-        nonce : nonce,
-        difficulty : difficulty,
-        data : data,
+        timestamp: timestamp,
+        blockIndex: blockIndex,
+        preHash: preHash,
+        hash: hash,
+        nonce: nonce,
+        difficulty: difficulty,
+        data: data,
     });
 
     describe("Block Properties", () => {
@@ -31,14 +31,14 @@ describe("Block", () => {
             expect(block).toHaveProperty("data");
         });
 
-        it("should have the correct values for the properties", () => {
-            expect(block.timestamp).toBe(timestamp);
-            expect(block.blockIndex).toBe(blockIndex);
-            expect(block.preHash).toBe(preHash);
-            expect(block.hash).toBe(hash);
-            expect(block.nonce).toBe(nonce);
-            expect(block.difficulty).toBe(difficulty);
-            expect(block.data).toBe(data);
+        it("should have values for every property", () => {
+            expect(block.timestamp).toEqual(timestamp);
+            expect(block.blockIndex).toEqual(blockIndex);
+            expect(block.preHash).toEqual(preHash);
+            expect(block.hash).toEqual(hash);
+            expect(block.nonce).toEqual(nonce);
+            expect(block.difficulty).toEqual(difficulty);
+            expect(block.data).toEqual(data);
         });
     });
 });
