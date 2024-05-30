@@ -1,5 +1,5 @@
 import { blockchain } from "../startup.mjs";
-import { writeFileAsync } from "../utilities/fileHandler.mjs";
+import { writeFileAsync, readFileAsync } from "../utilities/fileHandler.mjs";
 import { v4 as uuidv4 } from "uuid";
 
 const fetchBlockchain =(req, res, next) => {
@@ -7,6 +7,8 @@ const fetchBlockchain =(req, res, next) => {
 };
 
 const createBlock = async (req, res, next) => {
+    await writeBlockchain();
+
     const lastBlock = blockchain.getLastBlock();
 
     const data = req.body;
@@ -24,8 +26,8 @@ const createBlock = async (req, res, next) => {
     const hash = blockchain.hashBlock(timestamp, lastBlock.hash, data, nonce, difficulty);
     const block = blockchain.createBlock(timestamp, lastBlock.hash, hash, data, nonce, difficulty);
 
-    //writeFileAsync("data", "myblockchain.json", JSON.stringify(blockchain.chain));
-    console.log("Before Distribute", block)
+    await writeFileAsync("data", "myblockchain.json", JSON.stringify(blockchain.chain, null, 2));
+
     blockchain.memberNodes.forEach(async(url) => {
         console.log(blockchain.memberNodes.length)
     const body = {block};
@@ -39,6 +41,19 @@ const createBlock = async (req, res, next) => {
     res.status(201).json({ success: true, data: {message: "Block created and distributed", block }})
 };
 
+const writeBlockchain = async () => {
+    try {
+        const blockchainLog = await readFileAsync("data", "myblockchain.json");
+        blockchain.chain = blockchainLog;
+
+        return JSON.parse(blockchainLog)
+    } catch (error) {
+        if (error.code === 'ENOENT') {
+        return;
+        }
+    }
+}
+
 const distribute = (req, res, next) => {
     const block = req.body.block;
     const lastBlock = blockchain.getLastBlock();
@@ -46,7 +61,7 @@ const distribute = (req, res, next) => {
     const hash = lastBlock.hash === block.preHash;
     //Kolla så att det nya blockets index är ett större än det sista blockets index
     const index = lastBlock.blockIndex + 1 === block.blockIndex;
-    console.log("Inside Distribute");
+
     if(hash && index) {
         console.log("Inside if");
         blockchain.chain.push(block);
