@@ -236,3 +236,38 @@
     Time: 13:09:56 
     Success: false
     Message: Can't find /api/v1/blockchain/block/distribute on this server
+
+    Method: GET 
+    URL: /api/v1/blockchain/block/distribute 
+    Date: 2024-05-31 
+    Time: 10:25:33 
+    Success: false
+    Message: Can't find /api/v1/blockchain/block/distribute on this server
+
+    Method: GET 
+    URL: /api/v1/blockchain/block/distribute 
+    Date: 2024-05-31 
+    Time: 10:25:33 
+    Success: false
+    Message: Can't find /api/v1/blockchain/block/distribute on this server
+
+    Method: GET 
+    URL: /api/v1/blockchain/block/distribute 
+    Date: 2024-05-31 
+    Time: 10:25:33 
+    Success: false
+    Message: Can't find /api/v1/blockchain/block/distribute on this server
+
+    Method: POST 
+    URL: /api/v1/blockchain/mine 
+    Date: 2024-05-31 
+    Time: 10:34:46 
+    Success: undefined
+    Message: Failed to update blockchain file: ErrorResponse is not defined
+
+    Method: POST 
+    URL: /api/v1/blockchain/mine 
+    Date: 2024-05-31 
+    Time: 10:35:48 
+    Success: undefined
+    Message: Failed to update blockchain file: ErrorResponse is not defined

@@ -8,6 +8,7 @@ import ErrorResponse from "./utilities/ErrorResponseModel.mjs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+const PORT = process.argv[2];
 
 const app = express();
 
@@ -29,21 +30,20 @@ app.all("*", (req, res, next) => {
 
 app.use(errorHandler);
 
-const syncAtStartup = async () => {
-    console.log(process.argv[3]);
-    const response = await fetch(`${process.argv[3]}/api/v1/blockchain/sync`);
-    if (response.ok) 
-    {
-        const result = await response.json();
-        console.log(result);
-    } else {
-      console.log('Oops något gick fel!!!');
-    }
-};
-
-const PORT = process.argv[2];
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
     console.log('TODO: Sync at startup');
     syncAtStartup();
   });
+  
+  const syncAtStartup = async () => {
+      console.log(process.argv[3]);
+      const response = await fetch(`${process.argv[3]}/api/v1/blockchain/sync`);
+      if (response.ok) 
+      {
+          const result = await response.json();
+          console.log(result);
+      } else {
+        console.log('Oops något gick fel!!!');
+      }
+  };

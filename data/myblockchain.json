@@ -1,37 +1,37 @@
 [
   {
-    "timestamp": 1717095698945,
+    "timestamp": 1717152400639,
     "blockIndex": 1,
     "preHash": "0",
     "hash": "0",
     "nonce": 1337,
-    "difficulty": null,
+    "difficulty": "1",
     "data": []
   },
   {
-    "timestamp": 1717095707276,
+    "timestamp": 1717152449738,
     "blockIndex": 2,
     "preHash": "0",
-    "hash": "5d1bd4ba1639350fac267201166c8e27bfebd3d2f2ff548ff783859ee0bce157",
-    "nonce": 1,
-    "difficulty": null,
+    "hash": "00683016d820d7e41305ed1802c937f28b06e770725d1d39f13a9a4fd0b8846c",
+    "nonce": 21,
+    "difficulty": 2,
     "data": {
-      "firstName": "Kitty",
+      "firstName": "Maisie",
       "lastName": "Majava",
       "contact": {
         "phone": "031-000",
         "email": "Adam@Adam"
       },
-      "id": "699cca1b7c0e44a0a54d285a6b2cc21f"
+      "id": "e561c3e399b641e09f58293dcd81adb9"
     }
   },
   {
-    "timestamp": 1717095713996,
+    "timestamp": 1717152462310,
     "blockIndex": 3,
-    "preHash": "5d1bd4ba1639350fac267201166c8e27bfebd3d2f2ff548ff783859ee0bce157",
-    "hash": "c76fa541e89168b04898877d69dce3846967758ea719204b4f6957974e480d3b",
-    "nonce": 1,
-    "difficulty": null,
+    "preHash": "00683016d820d7e41305ed1802c937f28b06e770725d1d39f13a9a4fd0b8846c",
+    "hash": "000c6adda150d21144dac55f2395454b47ec93de360ff058596c16d89a55a14f",
+    "nonce": 5698,
+    "difficulty": 3,
     "data": {
       "firstName": "Adam",
       "lastName": "Majava",
@@ -39,7 +39,7 @@
         "phone": "031-000",
         "email": "Adam@Adam"
       },
-      "id": "fa319f7fbd4d433d90b2187120708553"
+      "id": "cbf7b712bc2b42339cf6cefded1eec9d"
     }
   }
 ]

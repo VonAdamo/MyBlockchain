@@ -7,7 +7,6 @@ const fetchBlockchain =(req, res, next) => {
 };
 
 const createBlock = async (req, res, next) => {
-    await writeBlockchain();
 
     const lastBlock = blockchain.getLastBlock();
 
@@ -22,11 +21,10 @@ const createBlock = async (req, res, next) => {
     data.contact.email = req.body.contact.email ?? data.contact.email;
     
     const {nonce, difficulty, timestamp} = blockchain.proofOFWork(lastBlock.hash, data);
-    console.log("After proofOfWork", nonce, difficulty)
     const hash = blockchain.hashBlock(timestamp, lastBlock.hash, data, nonce, difficulty);
     const block = blockchain.createBlock(timestamp, lastBlock.hash, hash, data, nonce, difficulty);
 
-    await writeFileAsync("data", "myblockchain.json", JSON.stringify(blockchain.chain, null, 2));
+    writeFileAsync("data", "myblockchain.json", JSON.stringify(blockchain.chain, null, 2));
 
     blockchain.memberNodes.forEach(async(url) => {
         console.log(blockchain.memberNodes.length)
@@ -37,22 +35,9 @@ const createBlock = async (req, res, next) => {
         headers: { "Content-Type": "application/json",},
         });
     });
-
+    
     res.status(201).json({ success: true, data: {message: "Block created and distributed", block }})
 };
-
-const writeBlockchain = async () => {
-    try {
-        const blockchainLog = await readFileAsync("data", "myblockchain.json");
-        blockchain.chain = blockchainLog;
-
-        return JSON.parse(blockchainLog)
-    } catch (error) {
-        if (error.code === 'ENOENT') {
-        return;
-        }
-    }
-}
 
 const distribute = (req, res, next) => {
     const block = req.body.block;
