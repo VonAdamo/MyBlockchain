@@ -1,2 +1,4 @@
 node_modules
 logs/*.log
+logs/app.log
+logs/error.log

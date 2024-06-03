@@ -271,3 +271,17 @@
     Time: 10:35:48 
     Success: undefined
     Message: Failed to update blockchain file: ErrorResponse is not defined
+
+    Method: GET 
+    URL: /api/v1/blockchain 
+    Date: 2024-06-03 
+    Time: 09:37:13 
+    Success: undefined
+    Message: path is not defined
+
+    Method: GET 
+    URL: /api/v1/blockchain 
+    Date: 2024-06-03 
+    Time: 09:39:52 
+    Success: undefined
+    Message: path is not defined

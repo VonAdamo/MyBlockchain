@@ -72,8 +72,6 @@ export default class Blockchain {
 
         if (difficulty < 1) return 1;
 
-        console.log("Mine Rate", MINE_RATE);
-        console.log("Timestamp", timestamp, "LastBlock", lastBlock.timestamp);
         return timestamp - lastBlock.timestamp > MINE_RATE
         
         ? + difficulty + 1

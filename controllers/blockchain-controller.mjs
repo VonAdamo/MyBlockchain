@@ -1,5 +1,5 @@
 import { blockchain } from "../startup.mjs";
-import { writeFileAsync} from "../utilities/fileHandler.mjs";
+import { writeFileAsync, readFileAsync } from "../utilities/fileHandler.mjs";
 import { v4 as uuidv4 } from "uuid";
 
 const fetchBlockchain =(req, res, next) => {
@@ -9,7 +9,6 @@ const fetchBlockchain =(req, res, next) => {
 const createBlock = async (req, res, next) => {
 
     const lastBlock = blockchain.getLastBlock();
-
     const data = req.body;
     const id = uuidv4().replaceAll("-", "");
     req.body.id = id;
@@ -42,20 +41,16 @@ const createBlock = async (req, res, next) => {
 const distribute = (req, res, next) => {
     const block = req.body.block;
     const lastBlock = blockchain.getLastBlock();
-    //Kolla så att sista blockets hash är samma som det nya blockets preHash
     const hash = lastBlock.hash === block.preHash;
-    //Kolla så att det nya blockets index är ett större än det sista blockets index
     const index = lastBlock.blockIndex + 1 === block.blockIndex;
 
     if(hash && index) {
-        console.log("Inside if");
         blockchain.chain.push(block);
         res.status(201).json({ success: true, statusCode: 201, data: {message: "Block created successfully" }});
     } else {
         res.status(500).json({ success: false, statusCode: 500, data: {message: "Block not created" }});
     }
 };
-// Sync chain kommer agera som consensus...
 const syncChain = (req, res, next) => {
     const currentLength = blockchain.chain.length;
     let maxLength = currentLength;
@@ -84,5 +79,4 @@ const syncChain = (req, res, next) => {
         
     res.status(200).json({ success: true, statusCode: 200, data: { message: "Sync complete!" },});
 };
-
 export { fetchBlockchain, createBlock, syncChain, distribute};
