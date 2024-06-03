@@ -6,11 +6,9 @@ export const listNodes = (req, res, next) => {
 
 export const registerNode = (req, res, next) => {
     const node = req.body;
-    //Om noden jag försöker lägga till redan finns 
-    //eller om noden jag försöker lägga till är min egen nod så går det inte
     if( blockchain.memberNodes.indexOf(node.nodeUrl) === -1 && blockchain.nodeUrl !== node.nodeUrl ) {
         blockchain.memberNodes.push(node.nodeUrl);
-        //Synca noderna
+
         syncNodes(node.nodeUrl);
         
         res.status(201).json({success:true, statusCode: 201, data: { message: `Node ${node.nodeUrl} has been registered`}});
@@ -20,11 +18,9 @@ export const registerNode = (req, res, next) => {
 };
 
 const syncNodes = (url) => {
-    //Säger att nodes är listan med alla mina nodes och min main
     const members = [...blockchain.memberNodes, blockchain.nodeUrl];
 
     try {
-        //Listan av alla noder skickas till alla noder
         members.forEach(async(member) => {
             const body = {nodeUrl: member};
             await fetch(`${url}/api/v1/nodes/register-node`, {

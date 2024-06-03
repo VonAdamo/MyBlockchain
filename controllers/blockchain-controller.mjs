@@ -1,5 +1,5 @@
 import { blockchain } from "../startup.mjs";
-import { writeFileAsync, readFileAsync } from "../utilities/fileHandler.mjs";
+import { writeFileAsync} from "../utilities/fileHandler.mjs";
 import { v4 as uuidv4 } from "uuid";
 
 const fetchBlockchain =(req, res, next) => {
